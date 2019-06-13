@@ -133,8 +133,7 @@ function Group() {
                 hisRate = this[i].averageAttendance()
             }
         }
-        arr.sort(this.sort)
-        console.log(arr)
+        arr.sort(this.sort)        
         console.log(arr.indexOf(hisRate)+1)
     }
     this.rateMarks = function (lastname) {
