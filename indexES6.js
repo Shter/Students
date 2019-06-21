@@ -1,35 +1,39 @@
-function Student(firstname,lastname,birthYear){
-    this.firstname = firstname
-    this.lastname = lastname
-    this.birthYear = birthYear
-    this.marks = []
-    this.attendance = new Array(25)
-    /*
-    Получение года рождения
-     */
-    this.getBirthYear = function () {console.log(this.birthYear)}
-    /*
-    Получение средней оценки
-     */
-    this.getAverageMarks = function () {
+class Student{
+    constructor(firstname,lastname,birthYear){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthYear = birthYear;
+        this.marks = [];
+        this.attendance = new Array(25);
+        this.averageAttendance = function average() {
+            var needles = this.enoughSpace().length
+            var sum = 0
+            for(let i=0; i < needles; i++) {
+                sum = +this.attendance[i] + sum
+            }
+            return sum/this.enoughSpace().length
+        };
+    }
+
+    getBirthYear(){
+        console.log(this.birthYear)
+    };
+    getAverageMarks(){
         var sum = 0;
-        for(i=0; i < this.marks.length; i++){
+        for(let i=0; i < this.marks.length; i++){
             sum = this.marks[i] + sum
         }
         return sum/this.marks.length
-    }
-    /*
-    Проверяем имееться ли еще место в массиве
-     */
-    this.enoughSpace = function () {
+    };
+    enoughSpace(){
         var filtered = this.attendance.filter(function (el) {
             return el != null;
         });
         return filtered
-    }
-    this.present = function () {
+    };
+    present(){
         if(this.enoughSpace().length < this.attendance.length) {
-            for(i=0; i < this.attendance.length; i++) {
+            for(let i=0; i < this.attendance.length; i++) {
                 if(this.attendance[i] === undefined) {
                     this.attendance[i] = true
                     return
@@ -37,10 +41,10 @@ function Student(firstname,lastname,birthYear){
 
             }
         }
-    }
-    this.absent = function () {
+    };
+    absent(){
         if(this.enoughSpace().length < this.attendance.length) {
-            for(i=0; i < this.attendance.length; i++) {
+            for(let i=0; i < this.attendance.length; i++) {
                 if(this.attendance[i] === undefined) {
                     this.attendance[i] = false
                     return
@@ -48,20 +52,17 @@ function Student(firstname,lastname,birthYear){
 
             }
         }
-    }
-    /*
-    Среднее значение посещения
-     */
-    this.averageAttendance = function average() {
+    };
+    averageAttendance() {
         var needles = this.enoughSpace().length
         var sum = 0
-        for(i=0; i < needles; i++) {
+        for(let i=0; i < needles; i++) {
             sum = +this.attendance[i] + sum
         }
         return sum/this.enoughSpace().length
+    };
 
-    }
-    this.summary = function () {
+    summary () {
         var averageAttendance = this.averageAttendance()
         var getAverageMarks = this.getAverageMarks()
         if(averageAttendance > 0.9 && getAverageMarks > 90) {
@@ -71,12 +72,12 @@ function Student(firstname,lastname,birthYear){
         }else if (averageAttendance < 90 && getAverageMarks < 0.9) {
             console.log("Редиска!")
         }
-    }
+    };
 }
 
-var student1 = new Student('Vasek', 'Piligrim', 1991)
-var student2 = new Student('Crom', 'Frol', 1999)
-var student3 = new Student('Blok', 'Gardev', 1981)
+const student1 = new Student('Vasek', 'Piligrim', 1991)
+const student2 = new Student('Crom', 'Frol', 1999)
+const student3 = new Student('Blok', 'Gardev', 1981)
 student1.marks = [39,56,85,52,78]
 student2.marks = [39,13,85,65,20]
 student3.marks = [41,78,85,52,78]
@@ -100,21 +101,23 @@ student3.present()
 student3.present()
 student2.summary()
 
+class Group extends Array{
+    constructor(){
+        super()
+    }
 
-
-function Group() {
-    this.attendance = function (lastname) {
+    attendance(lastname){
         if(arguments.length === 0) {
             var sum = 0
             for(i=0; i < this.length; i++){
-               sum = +this[i].attendance[0] + sum
+                sum = +this[i].attendance[0] + sum
             }
             console.log(sum/group.length)
         }else{
             this.rateAttendence(lastname)
         }
-    }
-    this.performance = function (lastname) {
+    };
+    performance(lastname){
         if(arguments.length === 0) {
             var sum = 0
             for(i=0; i < this.length; i++){
@@ -124,20 +127,8 @@ function Group() {
         }else{
             this.rateMarks(lastname)
         }
-    }
-    this.rateAttendence = function (lastname) {
-        var hisRate = ''
-        var arr = []
-        for (var i=0; i < this.length; i++){
-            arr.push(this[i].averageAttendance())
-            if(this[i].lastname === lastname){
-                hisRate = this[i].averageAttendance()
-            }
-        }
-        arr.sort(this.sort)        
-        console.log(arr.indexOf(hisRate)+1)
-    }
-    this.rateMarks = function (lastname) {
+    };
+    rateMarks(lastname){
         var hisRate = ''
         var arr = []
         for (var i=0; i < this.length; i++){
@@ -149,13 +140,27 @@ function Group() {
         }
         arr.sort(this.sort)
         console.log(arr.indexOf(hisRate)+1)
-    }
-    this.sort = function (a,b) {
+    };
+    rateAttendence(lastname){
+        var hisRate = ''
+        var arr = []
+        for (var i=0; i < this.length; i++){
+            arr.push(this[i].averageAttendance())
+            if(this[i].lastname === lastname){
+                hisRate = this[i].averageAttendance()
+            }
+        }
+        arr.sort(this.sort)
+        console.log(arr)
+        console.log(arr.indexOf(hisRate)+1)
+    };
+    sort(a,b){
         if (a > b) return 1;
         if (a < b) return -1;
-    }
+    };
+
 }
-Group.prototype = Object.create(Array.prototype)
+
 var group = new Group();
 group.push(student1,student2, student3)
 group.attendance('Piligrim')
